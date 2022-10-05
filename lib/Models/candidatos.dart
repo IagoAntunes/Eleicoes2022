@@ -1,3 +1,6 @@
+import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
+
 class Candidato {
   String? seq;
   String? sqcand;
@@ -10,6 +13,7 @@ class Candidato {
   String? dvt;
   String? vap;
   String? pvap;
+  Color? color;
 
   Candidato(
       {this.seq,
@@ -22,10 +26,12 @@ class Candidato {
       this.st,
       this.dvt,
       this.vap,
-      this.pvap});
+      this.pvap,
+      this.color});
 
   factory Candidato.fromMap(Map<String, dynamic> map) {
-    return Candidato(
+    Candidato candidato;
+    candidato = Candidato(
       seq: map['seq'] as String,
       sqcand: map['sqcand'] as String,
       n: map['n'] as String,
@@ -38,5 +44,19 @@ class Candidato {
       vap: map['vap'] as String,
       pvap: map['pvap'] as String,
     );
+
+    if (candidato.n == '13') {
+      candidato.color = Colors.red.shade600;
+    } else if (candidato.n == '22') {
+      candidato.color = Colors.green.shade600;
+    } else if (candidato.n == '15') {
+      candidato.color = Colors.blue.shade600;
+    } else if (candidato.n == '12') {
+      candidato.color = Colors.yellow.shade600;
+    } else {
+      candidato.color = Colors.orange.shade600;
+    }
+
+    return candidato;
   }
 }
