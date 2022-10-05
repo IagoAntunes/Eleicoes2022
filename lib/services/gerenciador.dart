@@ -8,12 +8,15 @@ import '../Providers/candidatos_provider.dart';
 
 class Gerenciador {
   List<Candidato>? listaCandidatos = [];
-
+  Eleicao? eleicao;
   getApi() async {
+    eleicao = null;
+    listaCandidatos = [];
     final response = await http.get(Uri.parse(
         'https://resultados.tse.jus.br/oficial/ele2022/544/dados-simplificados/br/br-c0001-e000544-r.json'));
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
+
       for (var cand in data['cand']) {
         final map = {
           'seq': cand['seq'],
@@ -30,10 +33,27 @@ class Gerenciador {
         };
         listaCandidatos!.add(Candidato.fromMap(map));
       }
+
+      final map = {
+        'ele': data['ele'],
+        'pvv': data['pvv'],
+        'cand': listaCandidatos,
+      };
+      eleicao = Eleicao.fromMap(map);
     }
   }
 
   getCandidatos() {
     return listaCandidatos;
+  }
+
+  getEleicao() {
+    return eleicao;
+  }
+
+  refresh() {
+    eleicao = null;
+    listaCandidatos = [];
+    getApi();
   }
 }

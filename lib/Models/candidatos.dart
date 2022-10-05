@@ -53,8 +53,10 @@ class Candidato {
       candidato.color = Colors.blue.shade600;
     } else if (candidato.n == '12') {
       candidato.color = Colors.yellow.shade600;
-    } else {
+    } else if (candidato.n == '30') {
       candidato.color = Colors.orange.shade600;
+    } else {
+      candidato.color = Colors.grey.shade600;
     }
 
     return candidato;

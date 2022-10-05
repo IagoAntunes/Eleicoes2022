@@ -19,31 +19,10 @@ class PieChartSample1State extends State<PieChartSample1> {
     return AspectRatio(
       aspectRatio: 1.3,
       child: Card(
-        color: Colors.white,
+        elevation: 0,
+        color: Colors.transparent,
         child: Column(
           children: <Widget>[
-            const SizedBox(
-              height: 28,
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                for (var pessoa in widget.listaCand!)
-                  Indicator(
-                    color: pessoa.color!,
-                    text: pessoa.nm!,
-                    isSquare: false,
-                    size: touchedIndex == int.parse(pessoa.seq!) - 1 ? 18 : 16,
-                    textColor: touchedIndex == int.parse(pessoa.seq!) - 1
-                        ? Colors.black
-                        : Colors.grey,
-                  ),
-              ],
-            ),
-            const SizedBox(
-              height: 18,
-            ),
             Expanded(
               child: AspectRatio(
                 aspectRatio: 1,
@@ -72,6 +51,23 @@ class PieChartSample1State extends State<PieChartSample1> {
                 ),
               ),
             ),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                for (var pessoa in widget.listaCand!)
+                  Indicator(
+                    color: pessoa.color!,
+                    text: pessoa.nm!,
+                    isSquare: false,
+                    size: touchedIndex == int.parse(pessoa.seq!) - 1 ? 18 : 16,
+                    textColor: touchedIndex == int.parse(pessoa.seq!) - 1
+                        ? Colors.black
+                        : Colors.grey,
+                  ),
+              ],
+            ),
           ],
         ),
       ),
@@ -83,22 +79,20 @@ class PieChartSample1State extends State<PieChartSample1> {
       widget.listaCand!.length,
       (i) {
         final isTouched = i == touchedIndex;
-        final opacity = isTouched ? 1.0 : 0.6;
-
-        const color0 = Color(0xff0293ee);
-        const color1 = Color(0xfff8b250);
-        const color2 = Color(0xff845bef);
-        const color3 = Color(0xff13d38e);
 
         return PieChartSectionData(
           color: widget.listaCand![i].color!,
-          value: 25,
+          value: double.parse(widget.listaCand![i].pvap!.replaceAll(',', '.')),
           title: widget.listaCand![i].pvap,
           radius: 80,
-          titleStyle: const TextStyle(
-              fontSize: 18,
+          titleStyle: TextStyle(
+              fontSize: double.parse(
+                          widget.listaCand![i].pvap!.replaceAll(',', '.')) <
+                      10
+                  ? 12
+                  : 18,
               fontWeight: FontWeight.bold,
-              color: Color(0xff044d7c)),
+              color: Colors.black),
           titlePositionPercentageOffset: 0.55,
           borderSide: isTouched
               ? BorderSide(color: Colors.black, width: 3)
